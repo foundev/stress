@@ -1,8 +1,9 @@
 # syntax=docker/dockerfile:1
 FROM golang:1.19
+ARG TARGETARCH
 WORKDIR /src
 COPY . /src
-RUN go build -o ./stress
+RUN GOOS=linux GOARCH=$TARGETARCH go build -o ./stress
 
 FROM scratch
 MAINTAINER vishnuk@google.com
