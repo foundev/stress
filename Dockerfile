@@ -8,6 +8,6 @@ RUN GOOS=linux GOARCH=$TARGETARCH go build -o ./stress
 FROM scratch
 MAINTAINER vishnuk@google.com
 
-COPY --from=0 /src/stress ./stress
+COPY --from=0 /src/stress /usr/bin/stress
 
-ENTRYPOINT ["./stress", "-logtostderr"]
+ENTRYPOINT ["stress", "-logtostderr"]
