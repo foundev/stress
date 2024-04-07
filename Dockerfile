@@ -1,13 +1,13 @@
 # syntax=docker/dockerfile:1
-FROM golang:1.19
+FROM golang:1.19 as build
 ARG TARGETARCH
 WORKDIR /src
 COPY . /src
-RUN GOOS=linux GOARCH=$TARGETARCH go build -o ./stress
+RUN GOOS=linux GOARCH=$TARGETARCH go build -o /src/stress
 
-FROM scratch
+FROM debian
 MAINTAINER vishnuk@google.com
 
-COPY --from=0 /src/stress /usr/bin/stress
+COPY --from=build /src/stress /usr/bin/stress
 
 ENTRYPOINT ["stress", "-logtostderr"]
